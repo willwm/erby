@@ -10,15 +10,19 @@ options = {
   backend_host: ENV['BACKEND_HOST'] || 'localhost',
   backend_port: ENV['BACKEND_PORT'] || '3000',
   input_directory: 'templates',
-  output_directory: 'transformed'
+  output_directory: '../output'
 }
 
 # Parse runtime arguments
 OptionParser.new do |opts|
   opts.banner = "Usage: transform_config.rb [options]"
 
-  opts.on("-dDIRECTORY", "--directory=DIRECTORY", "Input directory containing .erb files") do |directory|
-    options[:input_directory] = directory
+  opts.on("-iDIRECTORY", "--input=DIRECTORY", "Input directory containing .erb files") do |input_directory|
+    options[:input_directory] = input_directory
+  end
+
+  opts.on("-oDIRECTORY", "--output=DIRECTORY", "Output directory for transformed files") do |output_directory|
+    options[:output_directory] = output_directory
   end
 
   opts.on("--port=PORT", "Port to listen on") do |port|
@@ -44,12 +48,17 @@ end.parse!
 @backend_host = options[:backend_host]
 @backend_port = options[:backend_port]
 
+puts "options[:input_directory]: #{options[:input_directory]}"
+puts "options[:output_directory]: #{options[:output_directory]}"
+
 # Iterate through all .erb files in the input directory recursively
 Find.find(options[:input_directory]) do |path|
   next unless path =~ /\.erb$/
 
   # Derive the output file name by removing the .erb extension
   output_file = path.sub(/\.erb$/, '').sub(options[:input_directory], options[:output_directory])
+
+  puts "output_file: #{output_file}"
 
   # Create the directory for the output file if it doesn't exist
   FileUtils.mkdir_p(File.dirname(output_file))

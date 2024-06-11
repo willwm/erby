@@ -1,5 +1,8 @@
 #!/bin/bash
 
+input_directory="templates"
+output_directory="../output"
+
 if [ -f ../set-env.sh ]; then
     echo "Sourcing ../set-env.sh"
     source ../set-env.sh
@@ -7,13 +10,6 @@ fi
 
 rm -rf transformed
 
-ruby transform_templates.rb
+ruby ./transform_templates.rb -i $input_directory -o $output_directory
 
-echo "./transformed"
-tree transformed
-
-env | grep BACKEND_
-
-batcat transformed/etc/nginx/nginx.conf
-
-batcat transformed/example
+tree $output_directory
