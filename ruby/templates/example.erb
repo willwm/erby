@@ -1,9 +1,6 @@
 Today is <%= Time.now.strftime("%A, %B %d, %Y") %>.
-
+<%= ENV['EXAMPLE_STRING'] %>
 Here are the numbers from 1 to 5:
 <% (1..5).each do |number| %>
   Number: <%= number %>
 <% end %>
-
-<%= ENV['EXAMPLE_STRING'] %>
-

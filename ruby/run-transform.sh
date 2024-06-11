@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 if [ -f ../set-env.sh ]; then
     echo "Sourcing ../set-env.sh"
@@ -14,6 +14,6 @@ tree transformed
 
 env | grep BACKEND_
 
-cat transformed/etc/nginx/nginx.conf
+batcat transformed/etc/nginx/nginx.conf
 
-cat transformed/example
+batcat transformed/example
