@@ -6,9 +6,7 @@ WORKDIR /app
 # Copy the ruby directory into the container
 COPY ruby /app
 
-RUN chmod +x *.sh
-
-CMD ["bash", "-c", "./run-transform.sh"]
+RUN chmod +x *.sh && ./run-transform.sh
 
 FROM ubuntu:latest as erb-sandbox
 
