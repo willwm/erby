@@ -1,0 +1,9 @@
+# nginx.conf.erb
+server {
+    listen <%= @port %>;
+    server_name <%= @server_name %>;
+
+    location / {
+        proxy_pass http://<%= @backend_host %>:<%= @backend_port %>;
+    }
+}

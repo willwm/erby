@@ -1,0 +1,12 @@
+name: sandbox
+
+services:
+  erb-sandbox:
+    container_name: erb-sandbox
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: erb-sandbox
+    tty: true # docker run -t
+    env_file:
+      - ./.env
