@@ -1,6 +1,7 @@
 require 'erb'
 require 'optparse'
 require 'fileutils'
+require 'find'
 
 # Define default values for variables
 options = {
@@ -43,16 +44,18 @@ end.parse!
 @backend_host = options[:backend_host]
 @backend_port = options[:backend_port]
 
-# Iterate through all .erb files in the input directory and its subdirectories
-Dir.glob(File.join(options[:input_directory], '**', '*.erb')).each do |input_file|
+# Iterate through all .erb files in the input directory recursively
+Find.find(options[:input_directory]) do |path|
+  next unless path =~ /\.erb$/
+
   # Derive the output file name by removing the .erb extension
-  output_file = input_file.sub(/\.erb$/, '').sub(options[:input_directory], options[:output_directory])
+  output_file = path.sub(/\.erb$/, '').sub(options[:input_directory], options[:output_directory])
 
   # Create the directory for the output file if it doesn't exist
   FileUtils.mkdir_p(File.dirname(output_file))
 
   # Read the ERB template
-  template = File.read(input_file)
+  template = File.read(path)
 
   # Create an ERB object
   erb = ERB.new(template)
