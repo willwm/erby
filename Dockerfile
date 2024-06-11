@@ -1,6 +1,4 @@
-FROM ruby:latest as erb-sandbox
-
-RUN apt update && apt install -y tree bat micro mc
+FROM ruby:latest as erby
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -10,7 +8,12 @@ COPY ruby /app
 
 RUN chmod +x *.sh
 
-# Run the transform_templates.rb script
-# CMD ["ruby", "/app/ruby/transform_templates.rb"]
+CMD ["bash", "-c", "./run-transform.sh"]
 
-CMD ["bash"]
+FROM ubuntu:latest as erb-sandbox
+
+WORKDIR /app
+
+COPY --from=erby /app/transformed /app
+
+CMD [ "bash" ]

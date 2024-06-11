@@ -12,6 +12,3 @@ rm -rf $output_directory
 
 echo "🏃 Running transform_templates.rb ('$input_directory' → '$output_directory')"
 ruby ./transform_templates.rb -i $input_directory -o $output_directory
-
-echo "Transformed files:"
-tree $output_directory
